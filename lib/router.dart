@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:project/global.dart'; // <-- Dùng key toàn cục
 import 'package:project/ui/main/home_page.dart';
 import 'package:project/ui/screens/allWork_page/allWork.dart'; // <-- THÊM DÒNG NÀY
-import 'package:project/ui/screens/dashboard_page/dashboard_page.dart';
 import 'package:project/ui/screens/login_page/LoginScreen.dart';
 import 'package:project/ui/screens/login_page/RegisterScreen.dart';
 import 'package:project/ui/screens/login_page/splash_screen.dart';
@@ -44,10 +43,6 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: '/home_page',
           builder: (context, state) => const HomePage(),
-        ),
-        GoRoute(
-          path: '/dashboard',
-          builder: (context, state) => const DashboardPage(),
         ),
         GoRoute(
           path: '/allWork',
@@ -107,57 +102,6 @@ final GoRouter router = GoRouter(
             );
           },
         ),
-        // GoRoute(
-        //   path: '/story/:id',
-        //   builder: (context, state) {
-        //     final storyId = int.tryParse(state.pathParameters['id'] ?? '');
-        //     final projectId = state.uri.queryParameters['projectId'];
-        //
-        //     if (storyId == null || projectId == null) {
-        //       return const Scaffold(
-        //         body: Center(child: Text('Invalid story ID or project ID')),
-        //       );
-        //     }
-        //
-        //     return StoryDetailPage(
-        //       storyId: storyId,
-        //       projectId: projectId,
-        //     );
-        //   },
-        // ),
-        // GoRoute(
-        //   path: '/bug/:id',
-        //   builder: (context, state) {
-        //     final bugId = int.tryParse(state.pathParameters['id'] ?? '');
-        //     final projectId = state.uri.queryParameters['projectId'];
-        //
-        //     if (bugId == null || projectId == null) {
-        //       return const Scaffold(
-        //         body: Center(child: Text('Invalid bug ID or project ID')),
-        //       );
-        //     }
-        //
-        //     return BugDetailPage(
-        //       bugId: bugId,
-        //       projectId: projectId,
-        //     );
-        //   },
-        // ),
-        // GoRoute(
-        //   path: '/testcase/:id',
-        //   builder: (context, state) {
-        //     final testCaseId = int.tryParse(state.pathParameters['id'] ?? '');
-        //     final projectId = state.uri.queryParameters['projectId'];
-        //
-        //     if (testCaseId == null || projectId == null) {
-        //       return const Scaffold(
-        //         body: Center(child: Text('Invalid test case ID or project ID')),
-        //       );
-        //     }
-        //
-        //     return TestCaseDetailPage(testCaseId: testCaseId);
-        //   },
-        // ),
         GoRoute(
           path: '/story/:id',
           builder: (context, state) {

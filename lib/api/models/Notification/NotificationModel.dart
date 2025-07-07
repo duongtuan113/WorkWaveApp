@@ -3,7 +3,7 @@ class NotificationModel {
   final String message;
   final String type;
   final String relatedId;
-  final String projectId; // 👈 THÊM
+  final String projectId;
   final int timestamp;
   final bool read;
 
@@ -23,7 +23,7 @@ class NotificationModel {
       message: json['message'],
       type: json['type'],
       relatedId: json['relatedId'],
-      projectId: json['projectId'] ?? '', // 👈 THÊM
+      projectId: json['projectId'] ?? '',
       timestamp: json['timestamp'],
       read: json['read'],
     );

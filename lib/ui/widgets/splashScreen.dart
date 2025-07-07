@@ -1,5 +1,3 @@
-// lib/ui/screens/login_page/splash_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project/api/controllers/auth_controller.dart';
@@ -7,7 +5,6 @@ import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }

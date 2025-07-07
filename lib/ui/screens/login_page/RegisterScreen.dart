@@ -20,15 +20,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
 
-  // ✅ BƯỚC 1: Xóa bỏ việc khởi tạo UserController ở đây.
-  // Chúng ta sẽ lấy nó từ Provider.
-  // late UserController _userController;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _userController = UserController(context); // ❌ Dòng này gây lỗi
-  // }
-
   // ✅ BƯỚC 2: Sửa lại hàm _register để sử dụng Provider
   void _register() async {
     // Lấy controller trực tiếp từ context. Dùng `read` vì ta chỉ gọi hàm, không cần build lại UI.

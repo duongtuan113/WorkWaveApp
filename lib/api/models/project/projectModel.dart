@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart'; // Import để sử dụng @immutable
+import 'package:flutter/foundation.dart';
 
-// Thêm @immutable là một thói quen tốt cho các lớp model
-// để đảm bảo các thuộc tính của chúng không bị thay đổi sau khi tạo.
 @immutable
 class Project {
   final String projectId;
@@ -21,11 +19,6 @@ class Project {
       description: json['description'] as String?,
     );
   }
-
-  // ✅ BƯỚC 1: Ghi đè toán tử so sánh (==)
-  // DropdownButton sẽ dùng toán tử này để tìm item khớp với value.
-  // Chúng ta định nghĩa rằng hai đối tượng Project là "bằng nhau"
-  // nếu chúng có cùng giá trị projectId.
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -33,9 +26,6 @@ class Project {
     return other is Project && other.projectId == projectId;
   }
 
-  // ✅ BƯỚC 2: Ghi đè hashCode
-  // Bất cứ khi nào bạn ghi đè toán tử ==, bạn cũng PHẢI ghi đè hashCode.
-  // Một quy tắc tốt là dùng hashCode của các thuộc tính mà bạn đã dùng để so sánh.
   @override
   int get hashCode => projectId.hashCode;
 }

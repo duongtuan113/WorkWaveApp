@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
-
   @override
   Widget build(BuildContext context) {
     // Dùng `watch` để Drawer tự động cập nhật khi trạng thái đăng nhập thay đổi

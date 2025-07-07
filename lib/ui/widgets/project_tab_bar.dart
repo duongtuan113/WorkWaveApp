@@ -15,7 +15,6 @@ class ProjectTabBar extends StatelessWidget implements PreferredSizeWidget {
         {"title": "Summary", "route": "/summary/$projectId"},
         {"title": "Board", "route": "/board/$projectId"},
         {"title": "Backlog", "route": "/backlog/$projectId"},
-        // {"title": "Forms", "route": "/forms/$projectId"},
         {"title": "Timeline", "route": "/timeline/$projectId"},
       ];
 
