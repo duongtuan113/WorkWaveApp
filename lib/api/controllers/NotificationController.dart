@@ -52,7 +52,7 @@ class NotificationController extends ChangeNotifier {
 
     _stompClient = StompClient(
       config: StompConfig.SockJS(
-        url: 'http://192.168.0.104:8086/ws', // ✅ Đã đổi thành IP thật
+        url: 'http://192.168.0.104:8086/ws',
         onConnect: (StompFrame frame) {
           _isConnected = true;
           _stompClient.subscribe(
@@ -60,7 +60,7 @@ class NotificationController extends ChangeNotifier {
             callback: (StompFrame frame) {
               if (frame.body != null) {
                 final jsonData = jsonDecode(frame.body!);
-                print("📥 Received WebSocket data: $jsonData"); // ✅ Log debug
+                print("📥 Received WebSocket data: $jsonData");
                 final notification = NotificationModel.fromJson(jsonData);
                 _notifications.insert(0, notification);
                 notifyListeners();

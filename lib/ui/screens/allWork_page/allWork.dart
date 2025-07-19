@@ -91,34 +91,6 @@ class _TaskPageState extends State<TaskPage> {
     }
   }
 
-  // Future<void> _onProjectSelected(Project project) async {
-  //   if (!mounted) return;
-  //   setState(() {
-  //     _isLoading = true;
-  //   });
-  //
-  //   final projectCtrl = context.read<ProjectController>();
-  //   final testCaseCtrl = context.read<TestCaseController>();
-  //   final bugCtrl = context.read<BugController>();
-  //   final userStoryCtrl = context.read<UserStoryController>();
-  //
-  //   projectCtrl.setSelectedProjectById(project.projectId);
-  //
-  //   await Future.wait([
-  //     userStoryCtrl.loadAllStories(project.projectId),
-  //     testCaseCtrl.loadTestCase(project.projectId),
-  //     bugCtrl.loadBug(project.projectId),
-  //   ]);
-  //
-  //   if (!mounted) return;
-  //   _combineAndSortLists();
-  //   await _fetchAssigneeNames();
-  //
-  //   if (mounted)
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  // }
   Future<void> _onProjectSelected(Project project) async {
     if (!mounted) return;
     setState(() {

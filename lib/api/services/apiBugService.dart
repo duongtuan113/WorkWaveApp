@@ -4,18 +4,6 @@ import 'package:project/api/models/bug/bug.dart';
 class BugService {
   final Dio _dio;
   BugService(this._dio);
-  // Future<List<Bug>> fetchBugByProject(String projectId) async {
-  //   try {
-  //     final response = await _dio.get('/bugs/bug/projects/$projectId/bugs',
-  //         options: Options(headers: {
-  //           'X-Project-Id': projectId,
-  //         }));
-  //     final List data = response.data['data'];
-  //     return data.map((json) => Bug.fromJson(json)).toList();
-  //   } catch (e) {
-  //     throw Exception("khong lay duoc Bug service");
-  //   }
-  // }
   Future<List<Bug>> fetchBugByProject(String projectId, String token) async {
     try {
       final response = await _dio.get(

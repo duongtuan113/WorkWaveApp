@@ -59,29 +59,6 @@ class _BugDetailPageState extends State<BugDetailPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _loadBug());
   }
 
-  // Future<void> _loadBug() async {
-  //   final bugCtrl = context.read<BugController>();
-  //   final userCtrl = context.read<UserController>();
-  //
-  //   await bugCtrl.loadBug(widget.projectId);
-  //   final bug = bugCtrl.bug.firstWhere((b) => b.bugId == widget.bugId,
-  //       orElse: () => throw Exception("Not found"));
-  //
-  //   _titleController.text = bug.title;
-  //   _descController.text = bug.description;
-  //   _assignedTo = bug.assignedTo;
-  //
-  //   final userIds = {
-  //     bug.createdBy,
-  //     bug.updatedBy,
-  //     bug.reportedBy,
-  //     bug.assignedTo,
-  //   }.where((id) => id.trim().isNotEmpty).toSet();
-  //
-  //   for (final id in userIds) {
-  //     await userCtrl.fetchUserByIdOnce(id);
-  //   }
-  // }
   Future<void> _loadBug() async {
     final bugCtrl = context.read<BugController>();
     final userCtrl = context.read<UserController>();
@@ -89,12 +66,11 @@ class _BugDetailPageState extends State<BugDetailPage> {
     final token = authCtrl.accessToken;
 
     if (token == null) {
-      context.go('/login'); // Hoặc show thông báo
+      context.go('/login');
       return;
     }
 
-    await bugCtrl.loadBug(
-        widget.projectId, token); // ✅ truyền đủ projectId + token
+    await bugCtrl.loadBug(widget.projectId, token);
 
     final bug = bugCtrl.bug.firstWhere((b) => b.bugId == widget.bugId,
         orElse: () => throw Exception("Không tìm thấy bug"));

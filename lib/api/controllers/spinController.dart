@@ -85,9 +85,7 @@ import '../models/spin/spin.dart';
 import '../services/apiSpinService.dart';
 
 class SprintController extends ChangeNotifier {
-  // Bỏ 'final SprintService _service = SprintService();'
   final SprintService _service;
-  // Thêm constructor để nhận Service từ bên ngoài
   SprintController(this._service);
 
   List<Sprint> _sprints = [];

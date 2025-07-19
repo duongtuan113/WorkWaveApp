@@ -16,7 +16,6 @@ class ProjectPage extends StatefulWidget {
 }
 
 class _ProjectPageState extends State<ProjectPage> {
-  // Biến để theo dõi trạng thái auth của lần build trước
   AuthStatus? _previousAuthStatus;
   String get displayInitial {
     final currentUser = context.read<AuthController>().currentUser;
@@ -24,18 +23,13 @@ class _ProjectPageState extends State<ProjectPage> {
     return name.isNotEmpty ? name[0].toUpperCase() : 'U';
   }
 
-  // ✅ initState giờ đây chỉ còn nhiệm vụ lấy trạng thái ban đầu
   @override
   void initState() {
     super.initState();
-    // Dùng addPostFrameCallback để đảm bảo context sẵn sàng
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Kiểm tra mounted trước khi dùng context
       if (!mounted) return;
       final authController = context.read<AuthController>();
       _previousAuthStatus = authController.status;
-
-      // Nếu lúc mở trang mà đã đăng nhập sẵn rồi (trường hợp hot-restart)
       if (_previousAuthStatus == AuthStatus.authenticated) {
         print("🟢 [ProjectPage] Đã đăng nhập sẵn, tải projects...");
         context.read<ProjectController>().loadProjects();
@@ -43,31 +37,23 @@ class _ProjectPageState extends State<ProjectPage> {
     });
   }
 
-  // ✅ Toàn bộ logic lắng nghe và tải dữ liệu sẽ nằm trong build
   @override
   Widget build(BuildContext context) {
-    // Dùng 'watch' để lắng nghe cả hai controller
     final authController = context.watch<AuthController>();
     final projectController = context.watch<ProjectController>();
 
     final currentAuthStatus = authController.status;
-
-    // ✅ LOGIC QUAN TRỌNG NHẤT:
-    // Kiểm tra xem trạng thái có vừa thay đổi thành "authenticated" không
     if (currentAuthStatus != _previousAuthStatus &&
         currentAuthStatus == AuthStatus.authenticated) {
       print(
           "🎉 [ProjectPage] Phát hiện đăng nhập thành công! Bắt đầu tải projects...");
-      // Gọi hàm loadProjects một cách an toàn
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        // Kiểm tra lại mounted để chắc chắn widget vẫn tồn tại
         if (mounted) {
           context.read<ProjectController>().loadProjects();
         }
       });
     }
 
-    // Cập nhật trạng thái cũ cho lần build tiếp theo
     _previousAuthStatus = currentAuthStatus;
 
     return Scaffold(
@@ -100,24 +86,16 @@ class _ProjectPageState extends State<ProjectPage> {
     );
   }
 
-  // Hàm build body tách riêng cho gọn gàng
   Widget _buildProjectList(AuthController auth, ProjectController projects) {
-    // Nếu chưa xác thực, hiển thị thông báo
     if (auth.status != AuthStatus.authenticated) {
       return const Center(child: Text("Vui lòng đăng nhập để xem dự án."));
     }
-
-    // Nếu đang tải và chưa có dữ liệu cũ, hiển thị vòng quay
     if (projects.isLoading && projects.projects.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
-
-    // Nếu có lỗi, hiển thị lỗi
     if (projects.error != null) {
       return Center(child: Text("Lỗi: ${projects.error}"));
     }
-
-    // Nếu thành công, hiển thị toàn bộ giao diện
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -170,126 +148,6 @@ class _ProjectPageState extends State<ProjectPage> {
     );
   }
 
-  // void _createProject(BuildContext context) {
-  //   final nameController = TextEditingController();
-  //   final descController = TextEditingController();
-  //   int selectedStatusId = 1;
-  //
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) => StatefulBuilder(
-  //       builder: (context, setState) => Dialog(
-  //         shape:
-  //             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(24.0),
-  //           child: SingleChildScrollView(
-  //             child: Column(
-  //               mainAxisSize: MainAxisSize.min,
-  //               children: [
-  //                 const Text("Create New Project",
-  //                     style: TextStyle(
-  //                         fontSize: 26,
-  //                         fontWeight: FontWeight.bold,
-  //                         color: Colors.blueAccent)),
-  //                 const SizedBox(height: 24),
-  //                 TextField(
-  //                   controller: nameController,
-  //                   decoration: InputDecoration(
-  //                     labelText: "Project Name",
-  //                     border: OutlineInputBorder(
-  //                         borderRadius: BorderRadius.circular(14)),
-  //                     filled: true,
-  //                     fillColor: Colors.grey.shade100,
-  //                     contentPadding: const EdgeInsets.symmetric(
-  //                         horizontal: 18, vertical: 16),
-  //                   ),
-  //                 ),
-  //                 const SizedBox(height: 22),
-  //                 TextField(
-  //                   controller: descController,
-  //                   maxLines: 3,
-  //                   decoration: InputDecoration(
-  //                     labelText: "Project Description",
-  //                     border: OutlineInputBorder(
-  //                         borderRadius: BorderRadius.circular(14)),
-  //                     filled: true,
-  //                     fillColor: Colors.grey.shade100,
-  //                     contentPadding: const EdgeInsets.symmetric(
-  //                         horizontal: 18, vertical: 16),
-  //                   ),
-  //                 ),
-  //                 const SizedBox(height: 22),
-  //                 DropdownButtonFormField<int>(
-  //                   value: selectedStatusId,
-  //                   decoration: InputDecoration(
-  //                     labelText: "Project Status",
-  //                     border: OutlineInputBorder(
-  //                         borderRadius: BorderRadius.circular(14)),
-  //                     filled: true,
-  //                     fillColor: Colors.grey.shade100,
-  //                   ),
-  //                   items: const [
-  //                     DropdownMenuItem(value: 1, child: Text("Not Started")),
-  //                     DropdownMenuItem(value: 2, child: Text("In Progress")),
-  //                     DropdownMenuItem(value: 3, child: Text("Completed")),
-  //                     DropdownMenuItem(value: 4, child: Text("On Hold")),
-  //                     DropdownMenuItem(value: 5, child: Text("Cancelled")),
-  //                   ],
-  //                   onChanged: (value) {
-  //                     if (value != null)
-  //                       setState(() => selectedStatusId = value);
-  //                   },
-  //                 ),
-  //                 const SizedBox(height: 28),
-  //                 Row(
-  //                   mainAxisAlignment: MainAxisAlignment.end,
-  //                   children: [
-  //                     TextButton(
-  //                       onPressed: () => Navigator.of(context).pop(),
-  //                       child: const Text("Cancel"),
-  //                     ),
-  //                     const SizedBox(width: 16),
-  //                     ElevatedButton(
-  //                       onPressed: () async {
-  //                         final name = nameController.text.trim();
-  //                         final desc = descController.text.trim();
-  //                         if (name.isEmpty || desc.isEmpty) {
-  //                           Fluttertoast.showToast(
-  //                               msg: "Please fill all fields");
-  //                           return;
-  //                         }
-  //                         try {
-  //                           final projectController =
-  //                               Provider.of<ProjectController>(context,
-  //                                   listen: false);
-  //                           await projectController.createNewProject({
-  //                             'name': name,
-  //                             'description': desc,
-  //                             'statusId': selectedStatusId,
-  //                           });
-  //                           await projectController.loadProjects();
-  //                           Fluttertoast.showToast(
-  //                               msg: "Project created successfully");
-  //                           Navigator.of(context).pop();
-  //                         } catch (e) {
-  //                           Fluttertoast.showToast(
-  //                               msg:
-  //                                   "Failed to create project: ${e.toString()}");
-  //                         }
-  //                       },
-  //                       child: const Text("Create"),
-  //                     ),
-  //                   ],
-  //                 )
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
   void _createProject(BuildContext context) {
     final nameController = TextEditingController();
     final descController = TextEditingController();

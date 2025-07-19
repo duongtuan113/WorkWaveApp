@@ -13,24 +13,18 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _checkLoginStatus(); // Đổi tên hàm cho rõ ràng hơn
+    _checkLoginStatus();
   }
 
   Future<void> _checkLoginStatus() async {
     final auth = Provider.of<AuthController>(context, listen: false);
-
-    // BƯỚC QUAN TRỌNG: CHỜ CHO AuthController HOÀN TẤT VIỆC TẢI TOKEN TỪ STORAGE
-    await auth
-        .initialized; // Đảm bảo constructor của AuthController đã hoàn tất
-
-    // Bây giờ, _loggedInUser đã có giá trị (nếu có token được lưu)
-    // Mới thử refresh token
+    await auth.initialized;
     bool hasValidToken = await auth.refreshAccessToken();
 
     if (hasValidToken) {
-      context.go('/'); // Đã đăng nhập => vào trang chính
+      context.go('/');
     } else {
-      context.go('/login'); // Chưa đăng nhập => vào trang đăng nhập
+      context.go('/login');
     }
   }
 

@@ -7,7 +7,6 @@ class UserService {
   final Dio _dio;
   UserService(this._dio);
 
-  /// Đăng ký một người dùng mới.
   Future<bool> registerUser(User user) async {
     try {
       final response =

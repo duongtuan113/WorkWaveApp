@@ -31,18 +31,6 @@ class _BugTimelinePageState extends State<BugTimelinePage> {
   final DateTime maxDate = DateTime(DateTime.now().year, 12, 31);
 
   late ScrollController _scrollController;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _scrollController = ScrollController();
-  //   Future.microtask(() async {
-  //     await context.read<BugController>().loadBug(widget.projectId);
-  //     await context.read<SprintController>().loadAllSprints(widget.projectId);
-  //
-  //     _scrollToToday();
-  //   });
-  // }
   @override
   void initState() {
     super.initState();
@@ -50,15 +38,13 @@ class _BugTimelinePageState extends State<BugTimelinePage> {
 
     Future.microtask(() async {
       final authCtrl = context.read<AuthController>();
-      final token = authCtrl.accessToken; // ✅ Sửa tại đây
+      final token = authCtrl.accessToken;
 
       if (token != null) {
-        await context
-            .read<BugController>()
-            .loadBug(widget.projectId, token); // ✅ Truyền token
+        await context.read<BugController>().loadBug(widget.projectId, token);
       } else {
         print("❌ Token không tồn tại, cần login lại");
-        context.go('/login'); // hoặc xử lý lỗi khác
+        context.go('/login');
       }
 
       await context.read<SprintController>().loadAllSprints(widget.projectId);
@@ -149,8 +135,8 @@ class _BugTimelinePageState extends State<BugTimelinePage> {
   @override
   Widget build(BuildContext context) {
     final bugCtrl = context.watch<BugController>();
-    final projectController = context.watch<ProjectController>(); // ✅ FIXED
-    final sprintController = context.watch<SprintController>(); // ✅ FIXED
+    final projectController = context.watch<ProjectController>();
+    final sprintController = context.watch<SprintController>();
     final bugs = bugCtrl.bug;
 
     final project = projectController.projects.firstWhere(

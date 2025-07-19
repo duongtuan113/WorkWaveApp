@@ -5,7 +5,7 @@ import '../models/Notification/NotificationModel.dart';
 class ApiNotificationService {
   final Dio _dio;
 
-  ApiNotificationService(this._dio); // ✅ Dùng dio đã truyền từ bên ngoài
+  ApiNotificationService(this._dio);
 
   Future<List<NotificationModel>> fetchNotifications(String userId) async {
     final url = '/api/notifications';

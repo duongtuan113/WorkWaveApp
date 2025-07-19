@@ -120,34 +120,4 @@ class UserController extends ChangeNotifier {
       print("❌ loadProjectMembers failed: $e");
     }
   }
-
-// Future<void> loadProjectMembers(String projectId) async {
-  //   try {
-  //     final members = await _service.fetchProjectMembers(projectId);
-  //     _projectMembers = members;
-  //     for (var member in members) {
-  //       _userCache[member.userId] = member;
-  //     }
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print("❌ loadProjectMembers failed: $e");
-  //   }
-  // }
-
-// Future<void> loadAllUsers() async {
-  //   _isFetchingUsers = true;
-  //   notifyListeners();
-  //
-  //   try {
-  //     final users = await _service.fetchAllUsers();
-  //     for (var user in users) {
-  //       _userCache[user.userId] = user;
-  //     }
-  //   } catch (e) {
-  //     print("❌ Lỗi loadAllUsers: $e");
-  //   }
-  //
-  //   _isFetchingUsers = false;
-  //   notifyListeners();
-  // }
 }

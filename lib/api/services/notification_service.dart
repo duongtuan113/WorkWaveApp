@@ -13,7 +13,6 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin _plugin =
       FlutterLocalNotificationsPlugin();
 
-  /// Cấu hình Dio và token getter (gọi trong main.dart)
   void configure({
     required Dio dio,
     required String Function() getAccessToken,

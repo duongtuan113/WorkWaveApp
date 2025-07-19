@@ -20,9 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
 
-  // ✅ BƯỚC 2: Sửa lại hàm _register để sử dụng Provider
   void _register() async {
-    // Lấy controller trực tiếp từ context. Dùng `read` vì ta chỉ gọi hàm, không cần build lại UI.
     final userController = context.read<UserController>();
 
     if (_passwordController.text != _confirmPasswordController.text) {
@@ -39,10 +37,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
 
     try {
-      // Gọi hàm register từ controller
       bool isSuccess = await userController.register(user);
 
-      // `isSuccess` sẽ là true nếu không có lỗi nào được ném ra
       if (mounted && isSuccess) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Đăng ký thành công!')),
@@ -50,7 +46,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         context.go('/login');
       }
     } catch (e) {
-      // Bắt lỗi được ném ra từ controller (ví dụ: "Tài khoản đã tồn tại")
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Lỗi: $e')),
@@ -70,8 +65,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ✅ BƯỚC 3: Dùng `watch` để lấy trạng thái `isLoading` từ controller
-    // Giao diện sẽ tự động cập nhật khi `isLoading` thay đổi.
     final isLoading = context.watch<UserController>().isRegistering;
 
     return Scaffold(
@@ -84,9 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Giả sử bạn có ảnh này trong assets
             Image.asset('assets/images/logo_1.png', height: 36),
-            // const Icon(Icons.app_registration, color: Colors.white, size: 36),
             const SizedBox(width: 10),
             const Text(
               'Đăng ký',
@@ -111,8 +102,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 16),
-
-              // Tên người dùng
               const Text('Tên người dùng',
                   style: TextStyle(
                       fontSize: 18,
@@ -135,7 +124,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 ),
               ),
-
               const SizedBox(height: 24),
               const Text('Email',
                   style: TextStyle(
@@ -160,7 +148,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 ),
               ),
-
               const SizedBox(height: 24),
               const Text('Mật khẩu',
                   style: TextStyle(
@@ -194,7 +181,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 24),
               const Text('Xác nhận mật khẩu',
                   style: TextStyle(
@@ -228,7 +214,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 32),
               SizedBox(
                 width: double.infinity,
@@ -251,7 +236,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontSize: 18, fontWeight: FontWeight.bold)),
                 ),
               ),
-
               const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

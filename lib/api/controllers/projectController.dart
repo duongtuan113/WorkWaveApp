@@ -7,8 +7,8 @@ import 'package:project/api/services/apiProjectService.dart';
 class ProjectController extends ChangeNotifier {
   final ProjectService _service;
 
-  ProjectController(this._service); // 👈 nhận ProjectService trực tiếp
-  List<Project> _filteredProjects = []; // 👉 Thêm danh sách lọc tìm kiếm
+  ProjectController(this._service);
+  List<Project> _filteredProjects = [];
   List<Project> _projects = [];
   List<CreateProject> _createProject = [];
   bool _isLoading = false;
@@ -60,7 +60,7 @@ class ProjectController extends ChangeNotifier {
 
       if (fetched.isNotEmpty) {
         _projects = fetched;
-        _filteredProjects = List.from(fetched); // 👈 CẦN THIẾT
+        _filteredProjects = List.from(fetched);
         print("✅ Hiển thị ${_projects.length} project(s)");
       } else {
         print("⚠️ Dữ liệu rỗng, không ghi đè");

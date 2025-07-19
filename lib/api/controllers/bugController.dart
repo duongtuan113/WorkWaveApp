@@ -19,7 +19,7 @@ class BugController extends ChangeNotifier {
     notifyListeners();
     try {
       _bug = await _service.fetchBugByProject(projectId, token);
-      print("Loaded bugs: $_bug"); // ✅ In ra dữ liệu bug
+      print("Loaded bugs: $_bug");
     } catch (e) {
       _error = e.toString();
     } finally {

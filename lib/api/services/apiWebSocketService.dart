@@ -40,7 +40,6 @@ class WebSocketService {
             connect(onMessage: _messageHandler);
           });
         },
-
         onDisconnect: (_) {
           _isConnected = false;
           _hasActivated = false;
@@ -51,7 +50,7 @@ class WebSocketService {
         },
         heartbeatIncoming: const Duration(seconds: 0),
         heartbeatOutgoing: const Duration(seconds: 0),
-        reconnectDelay: const Duration(seconds: 5), // ✅ tự reconnect
+        reconnectDelay: const Duration(seconds: 5),
       ),
     );
 
@@ -108,8 +107,6 @@ class WebSocketService {
       destination: destination,
       callback: (frame) {
         final data = _parseFrameBody(frame.body);
-
-        // ✅ Gọi thông báo cục bộ khi nhận được dữ liệu từ socket
         NotificationService().showNotification(
           'Sự kiện $eventType',
           data is Map && data['message'] != null

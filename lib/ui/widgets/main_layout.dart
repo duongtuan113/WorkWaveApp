@@ -13,10 +13,10 @@ class _MainLayoutState extends State<MainLayout> {
   int _selectedIndex = 0;
 
   final List<String> _routes = [
-    '/', // Home
+    '/',
     '/project',
     '/allWork',
-    '/notifications', // Notifications (giờ là index 3)
+    '/notifications',
   ];
 
   void _onItemTapped(int index) {

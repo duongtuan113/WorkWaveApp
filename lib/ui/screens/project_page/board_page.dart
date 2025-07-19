@@ -45,35 +45,6 @@ class _BoardPageState extends State<BoardPage> {
     'In Progress': [],
     'Done': [],
   };
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   WidgetsBinding.instance.addPostFrameCallback((_) async {
-  //     final projectController = context.read<ProjectController>();
-  //     final userStoryController = context.read<UserStoryController>();
-  //     final sprintController = context.read<SprintController>();
-  //     final authController = context.read<AuthController>();
-  //
-  //     final token = authController.accessToken;
-  //     final projectId = widget.projectId;
-  //
-  //     projectController.setSelectedProjectById(projectId);
-  //
-  //     if (token != null) {
-  //       await sprintController.loadActiveSprintsOnly(projectId);
-  //
-  //       final selectedSprint = sprintController.selectedSprint;
-  //
-  //       if (selectedSprint != null) {
-  //         await userStoryController.loadStories(
-  //           projectId,
-  //           selectedSprint.sprintId,
-  //         );
-  //       }
-  //     }
-  //   });
-  // }
   @override
   void initState() {
     super.initState();
@@ -275,7 +246,7 @@ class _BoardPageState extends State<BoardPage> {
     );
 
     if (success) {
-      await userStoryController.loadStories(projectId, sprintId); // ✅ load lại
+      await userStoryController.loadStories(projectId, sprintId);
 
       _controllers[column]?.clear();
       setState(() {

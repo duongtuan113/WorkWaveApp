@@ -6,10 +6,9 @@ class SprintService {
   final Dio _dio;
   SprintService(this._dio);
 
-  // Sửa lại các hàm để không cần truyền token nữa
   Future<List<Sprint>> fetchSprints(String projectId) async {
     final response = await _dio.get(
-      '/projects/sprint', // Dio tự động nối với baseUrl
+      '/projects/sprint',
       options: Options(headers: {
         'X-Project-Id': projectId,
       }),
@@ -50,6 +49,6 @@ class SprintService {
         return activeSprint['sprintId'];
       }
     }
-    return 1; // Fallback
+    return 1;
   }
 }

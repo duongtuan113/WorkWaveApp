@@ -5,9 +5,7 @@ import '../models/userStory/addUserStory.dart';
 import '../services/apiUserStoryService.dart';
 
 class UserStoryController with ChangeNotifier {
-  // Bỏ 'final UserStoryService _service = UserStoryService();'
   final UserStoryService _service;
-  // Thêm constructor để nhận Service từ bên ngoài
   UserStoryController(this._service);
 
   List<UserStory> stories = [];
