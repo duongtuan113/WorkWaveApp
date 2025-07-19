@@ -97,6 +97,7 @@ class SprintController extends ChangeNotifier {
   List<Sprint> get sprints => _sprints;
   Sprint? get selectedSprint => _selectedSprint;
   bool get isLoading => _isLoading;
+  Sprint? get currentSprint => _selectedSprint;
 
   void selectSprint(Sprint sprint) {
     _selectedSprint = sprint;

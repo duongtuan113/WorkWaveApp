@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart'; // ✅ FIXED
 import 'package:provider/provider.dart';
 
+import '../../../api/controllers/auth_controller.dart';
 import '../../../api/controllers/bugController.dart';
 import '../../../api/controllers/projectController.dart';
 import '../../../api/controllers/spinController.dart';
@@ -31,12 +32,35 @@ class _BugTimelinePageState extends State<BugTimelinePage> {
 
   late ScrollController _scrollController;
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _scrollController = ScrollController();
+  //   Future.microtask(() async {
+  //     await context.read<BugController>().loadBug(widget.projectId);
+  //     await context.read<SprintController>().loadAllSprints(widget.projectId);
+  //
+  //     _scrollToToday();
+  //   });
+  // }
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+
     Future.microtask(() async {
-      await context.read<BugController>().loadBug(widget.projectId);
+      final authCtrl = context.read<AuthController>();
+      final token = authCtrl.accessToken; // ✅ Sửa tại đây
+
+      if (token != null) {
+        await context
+            .read<BugController>()
+            .loadBug(widget.projectId, token); // ✅ Truyền token
+      } else {
+        print("❌ Token không tồn tại, cần login lại");
+        context.go('/login'); // hoặc xử lý lỗi khác
+      }
+
       await context.read<SprintController>().loadAllSprints(widget.projectId);
       _scrollToToday();
     });

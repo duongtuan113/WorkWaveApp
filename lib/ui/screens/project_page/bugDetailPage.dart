@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../../api/controllers/auth_controller.dart';
 import '../../../api/controllers/bugController.dart';
 import '../../../api/controllers/userController.dart';
 import '../../../api/models/bug/bug.dart';
@@ -58,13 +59,45 @@ class _BugDetailPageState extends State<BugDetailPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _loadBug());
   }
 
+  // Future<void> _loadBug() async {
+  //   final bugCtrl = context.read<BugController>();
+  //   final userCtrl = context.read<UserController>();
+  //
+  //   await bugCtrl.loadBug(widget.projectId);
+  //   final bug = bugCtrl.bug.firstWhere((b) => b.bugId == widget.bugId,
+  //       orElse: () => throw Exception("Not found"));
+  //
+  //   _titleController.text = bug.title;
+  //   _descController.text = bug.description;
+  //   _assignedTo = bug.assignedTo;
+  //
+  //   final userIds = {
+  //     bug.createdBy,
+  //     bug.updatedBy,
+  //     bug.reportedBy,
+  //     bug.assignedTo,
+  //   }.where((id) => id.trim().isNotEmpty).toSet();
+  //
+  //   for (final id in userIds) {
+  //     await userCtrl.fetchUserByIdOnce(id);
+  //   }
+  // }
   Future<void> _loadBug() async {
     final bugCtrl = context.read<BugController>();
     final userCtrl = context.read<UserController>();
+    final authCtrl = context.read<AuthController>();
+    final token = authCtrl.accessToken;
 
-    await bugCtrl.loadBug(widget.projectId);
+    if (token == null) {
+      context.go('/login'); // Hoặc show thông báo
+      return;
+    }
+
+    await bugCtrl.loadBug(
+        widget.projectId, token); // ✅ truyền đủ projectId + token
+
     final bug = bugCtrl.bug.firstWhere((b) => b.bugId == widget.bugId,
-        orElse: () => throw Exception("Not found"));
+        orElse: () => throw Exception("Không tìm thấy bug"));
 
     _titleController.text = bug.title;
     _descController.text = bug.description;

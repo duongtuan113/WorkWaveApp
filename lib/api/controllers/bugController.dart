@@ -13,12 +13,13 @@ class BugController extends ChangeNotifier {
   String? get error => _error;
   Bug? _currentBug;
   Bug? get currentBug => _currentBug;
-  Future<void> loadBug(String projectId) async {
+  Future<void> loadBug(String projectId, String token) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
     try {
-      _bug = await _service.fetchBugByProject(projectId);
+      _bug = await _service.fetchBugByProject(projectId, token);
+      print("Loaded bugs: $_bug"); // ✅ In ra dữ liệu bug
     } catch (e) {
       _error = e.toString();
     } finally {

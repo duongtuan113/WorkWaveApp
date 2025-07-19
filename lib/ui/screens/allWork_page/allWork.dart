@@ -12,6 +12,7 @@ import 'package:project/api/models/userStory/userStory.dart';
 import 'package:provider/provider.dart';
 
 import '../../../api/controllers/auth_controller.dart';
+import '../../../api/controllers/spinController.dart';
 import '../../widgets/CustomDrawer.dart';
 import '../../widgets/WorkItemSearchDelegate.dart';
 
@@ -90,6 +91,34 @@ class _TaskPageState extends State<TaskPage> {
     }
   }
 
+  // Future<void> _onProjectSelected(Project project) async {
+  //   if (!mounted) return;
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+  //
+  //   final projectCtrl = context.read<ProjectController>();
+  //   final testCaseCtrl = context.read<TestCaseController>();
+  //   final bugCtrl = context.read<BugController>();
+  //   final userStoryCtrl = context.read<UserStoryController>();
+  //
+  //   projectCtrl.setSelectedProjectById(project.projectId);
+  //
+  //   await Future.wait([
+  //     userStoryCtrl.loadAllStories(project.projectId),
+  //     testCaseCtrl.loadTestCase(project.projectId),
+  //     bugCtrl.loadBug(project.projectId),
+  //   ]);
+  //
+  //   if (!mounted) return;
+  //   _combineAndSortLists();
+  //   await _fetchAssigneeNames();
+  //
+  //   if (mounted)
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  // }
   Future<void> _onProjectSelected(Project project) async {
     if (!mounted) return;
     setState(() {
@@ -100,13 +129,17 @@ class _TaskPageState extends State<TaskPage> {
     final testCaseCtrl = context.read<TestCaseController>();
     final bugCtrl = context.read<BugController>();
     final userStoryCtrl = context.read<UserStoryController>();
+    final sprintCtrl = context.read<SprintController>();
 
     projectCtrl.setSelectedProjectById(project.projectId);
+
+    final currentSprintId =
+        sprintCtrl.currentSprint?.sprintId?.toString() ?? '';
 
     await Future.wait([
       userStoryCtrl.loadAllStories(project.projectId),
       testCaseCtrl.loadTestCase(project.projectId),
-      bugCtrl.loadBug(project.projectId),
+      bugCtrl.loadBug(project.projectId, currentSprintId),
     ]);
 
     if (!mounted) return;
